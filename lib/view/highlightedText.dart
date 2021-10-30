@@ -11,17 +11,11 @@ class HighlightedText extends StatelessWidget {
     return new Card(
       shape: new RoundedRectangleBorder(
           side: new BorderSide(color: color, width: 1.5),
-          borderRadius: BorderRadius.circular(4.0)),
+          borderRadius: BorderRadius.circular(5.0)),
 
-      child: new Padding(
-        padding: const EdgeInsets.all(4.0),
-        child: new Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Padding(padding:EdgeInsets.all(5),child: Center(child: new SelectableText(text,style: TextStyle(fontSize: fontSize,fontWeight: fontWeight),))),
-
-          ],
-        ),
+      child:  Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Center(child: Text(text,style: TextStyle(fontSize: fontSize,fontWeight: fontWeight),)),
       ),
     );
   }

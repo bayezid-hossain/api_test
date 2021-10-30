@@ -22,6 +22,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void loadDomains()async{
     Networking networking=Networking();
     accountController.domains=await networking.getDomains();
+    accountController.selectedValue=accountController.domains[0];
     print(accountController.domains);
     Get.off(HomePage());
   }

@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:api_test/controllers/AccountController.dart';
 import 'package:api_test/models/Account.dart';
+import 'package:api_test/view/highlightedText.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
@@ -21,13 +22,51 @@ class _AutoAccountScreenState extends State<AutoAccountScreen> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text("Inbox",style: TextStyle(fontSize: 20,fontFamily: "Kalpurush",color: Colors.black)),backgroundColor: Colors.white,leading: Icon(Icons.email_outlined,color: Colors.red,),),
-      body: Column(  mainAxisSize: MainAxisSize.max,
+      appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        flexibleSpace: SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(right: 16),
+            child: Row(
+              children: <Widget>[
+                IconButton(
+                  onPressed: (){
+                    Navigator.pop(context);
+                  },
+                  icon: Icon(Icons.arrow_back,color: Colors.black,),
+                ),
+                SizedBox(width: 2,),
+                Icon(Icons.email_outlined,color: Colors.redAccent,),
+                SizedBox(width: 12,),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Inbox",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+
+                    ],
+                  ),
+                ),
+                TextButton(onPressed: () async{
+                  controller.AddMessage(await controller.account[0].getMessages());
+
+                }, child:Icon(Icons.refresh,color: Colors.redAccent,))
+              ],
+            ),
+          ),
+        ),
+      ),body: Column(  mainAxisSize: MainAxisSize.max,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [FutureBuilder<String>(builder: (context,snapshot){
           if(snapshot.data=="" || snapshot.data==null){
-            return Center(
-              child: CircularProgressIndicator(),
+            return Padding(
+              padding: EdgeInsets.symmetric(vertical: 30),
+              child: Center(
+                child: CircularProgressIndicator(),
+              ),
             );
           }
           else {
@@ -35,18 +74,23 @@ class _AutoAccountScreenState extends State<AutoAccountScreen> {
               physics: ScrollPhysics(),
               child: Column(
                 children: <Widget>[
-                  Obx(()=> Text("Your email address is : "+controller.account[0].address)),
-                  RefreshIndicator(
-                    onRefresh: () =>controller.account[0].getMessages(),
-
-                    child: ListView.builder(
+                  Obx(()=> HighlightedText("Your Email : "+controller.account[0].address.toLowerCase(),Colors.redAccent,FontWeight.w500,20)),
+                  GetBuilder<AccountController>(
+                    builder: (ac) => ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount:controller.messages.length,
+                        itemCount:ac.messages.length,
                         itemBuilder: (context,index){
-                          return  EmailTile(controller.messages[index]);
-                        }),
-                  )
+                          return  EmailTile(ac.messages[index]);
+                        })
+                  ),
+                  // ListView.builder(
+                  //     physics: NeverScrollableScrollPhysics(),
+                  //     shrinkWrap: true,
+                  //     itemCount:controller.messages.length,
+                  //     itemBuilder: (context,index){
+                  //       return  EmailTile(controller.messages[index]);
+                  //     })
                 ],
               ),
             );
@@ -62,15 +106,13 @@ class _AutoAccountScreenState extends State<AutoAccountScreen> {
   }
 
   Future<String> createAccount()async{
-    final AccountController accountController=Get.find();
-    print(accountController.domains);
-    String name=getRandomString(8)+"@"+accountController.domains[0];
+    String name=getRandomString(8)+"@"+controller.domains[0];
     String pass=getRandomString(8);
     Account acc=Account();
     await acc.createAccount(name,pass);
 
     //http.Response response = await Account(Random().nextInt(9999999).toString()+"@"+accountController.domains[Random().nextInt(accountController.domains.length-1)+0],Random().nextInt(9999999).toString()).createAccount() as http.Response;
-    accountController.account.clear();
+    controller.account.clear();
     var response= (await acc.login(name,pass));
     print(response.statusCode);
     print(response.body);
@@ -79,11 +121,9 @@ class _AutoAccountScreenState extends State<AutoAccountScreen> {
       acc.pass=pass;
       acc.token=jsonDecode(response.body)['token'];
       acc.id=jsonDecode(response.body)['id'];
-      accountController.account.clear();
-      accountController.account.add(acc);
-      accountController.messages=await accountController.account[0].getMessages();
-      Navigator.pop(context);
-      Get.to(Inbox());
+      controller.account.clear();
+      controller.account.add(acc);
+      controller.messages=await controller.account[0].getMessages();
     }
     return "done";
   }

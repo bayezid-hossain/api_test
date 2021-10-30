@@ -18,7 +18,7 @@ class HighlightedText extends StatelessWidget {
         child: new Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            Padding(padding:EdgeInsets.all(5),child: new Text(text,style: TextStyle(fontSize: fontSize,fontWeight: fontWeight),)),
+            Padding(padding:EdgeInsets.all(5),child: Center(child: new SelectableText(text,style: TextStyle(fontSize: fontSize,fontWeight: fontWeight),))),
 
           ],
         ),

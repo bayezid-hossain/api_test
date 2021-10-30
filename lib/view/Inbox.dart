@@ -7,22 +7,56 @@ class Inbox extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(child: Scaffold(
-      appBar: AppBar(title: Text("Inbox",style: TextStyle(fontSize: 20,fontFamily: "Kalpurush",color: Colors.black)),backgroundColor: Colors.white,leading: Icon(Icons.email_outlined,color: Colors.red,),),
-body:  SingleChildScrollView(
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          flexibleSpace: SafeArea(
+            child: Container(
+              padding: EdgeInsets.only(right: 16),
+              child: Row(
+                children: <Widget>[
+                  IconButton(
+                    onPressed: (){
+                      Navigator.pop(context);
+                    },
+                    icon: Icon(Icons.arrow_back,color: Colors.black,),
+                  ),
+                  SizedBox(width: 2,),
+                  Icon(Icons.email_outlined,color: Colors.redAccent,),
+                  SizedBox(width: 12,),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Inbox",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+
+                      ],
+                    ),
+                  ),
+                  TextButton(onPressed: () async{
+                    controller.AddMessage(await controller.account[0].getMessages());
+
+                  }, child:Icon(Icons.refresh,color: Colors.redAccent,))
+                ],
+              ),
+            ),
+          ),
+        ),body:  SingleChildScrollView(
         physics: ScrollPhysics(),
       child: Column(
         children: <Widget>[
           SizedBox(height: 10,),
-          RefreshIndicator(
-            onRefresh: () =>controller.account[0].getMessages(),
-            child: ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount:controller.messages.length,
-                itemBuilder: (context,index){
-                  return  EmailTile(controller.messages[index]);
-                }),
-          )
+          GetBuilder<AccountController>(
+              builder: (ac) => ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount:ac.messages.length,
+                  itemBuilder: (context,index){
+                    return  EmailTile(ac.messages[index]);
+                  })
+          ),
         ],
       ),
     )

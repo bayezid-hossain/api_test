@@ -15,7 +15,7 @@ class Account{
   Future<dynamic> createAccount(String address,String password) async {
     //Uri.https("192.168.1.30:5000", "/api/data")
     //Uri.parse("your url");
-    Map data={'address':address,'password':pass};
+    Map data={'address':address,'password':password};
     var body =json.encode(data);
     final Uri uri = Uri.parse("https://api.mail.tm/accounts");
     final response = await http.post(

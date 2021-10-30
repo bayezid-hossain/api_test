@@ -24,6 +24,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_spinkit: ^5.1.0
+  http: ^0.13.3
+  get: ^4.3.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -43,6 +46,16 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
+  assets:
+    - assets/
+  fonts:
+    - family: BalooDa2
+      fonts:
+        - asset: assets/fonts/BalooDa2-Regular.ttf
+        - asset: assets/fonts/BalooDa2-Bold.ttf
+    - family: Kalpurush
+      fonts:
+        - asset: assets/fonts/Kalpurush.ttf
 
   # To add assets to your application, add an assets section, like this:
   # assets:

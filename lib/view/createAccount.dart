@@ -18,7 +18,33 @@ class CreateAccount extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Login Page"),
+        elevation: 0,
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.white,
+        flexibleSpace: SafeArea(
+          child: Container(
+            padding: EdgeInsets.only(right: 16),
+            child: Row(
+              children: <Widget>[
+
+                SizedBox(width: 10,),
+                Icon(Icons.email_outlined,color: Colors.blueAccent,),
+                SizedBox(width: 12,),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text("Create Account",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+
+                    ],
+                  ),
+                ),
+
+              ],
+            ),
+          ),
+        ),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -185,7 +211,9 @@ class CreateAccount extends StatelessWidget {
                           ));
                     }else{
                       Account acc=Account();
-                      var creationResponse=await acc.createAccount(email.text,pass.text);
+                      print(email.text+controller.selectedValue);
+                      String wholeEmail=email.text+"@"+controller.selectedValue;
+                      var creationResponse=await acc.createAccount(wholeEmail,pass.text);
                       if(creationResponse.statusCode==422){
                         showDialog(
                             barrierDismissible: true,
@@ -228,11 +256,11 @@ class CreateAccount extends StatelessWidget {
                               ),
                             ));
                      controller.account.clear();
-                      var response= (await acc.login(email.text,pass.text));
+                      var response= (await acc.login(wholeEmail,pass.text));
                       print(response.statusCode);
                       print(response.body);
                       if(response.statusCode==200){
-                        acc.address=email.text;
+                        acc.address=wholeEmail;
                         acc.pass=pass.text;
                         acc.token=jsonDecode(response.body)['token'];
                         acc.id=jsonDecode(response.body)['id'];

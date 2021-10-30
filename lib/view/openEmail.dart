@@ -50,8 +50,8 @@ class OpenEmail extends StatelessWidget {
           padding: EdgeInsets.only(left: 16,right: 16,top: 10,bottom: 10),
           child: Column(
             children: [
-              HighlightedText("Subject: "+message.subject,Colors.lightGreenAccent,FontWeight.bold,20),
-              HighlightedText(message.text,Colors.lightBlueAccent,FontWeight.normal,15),
+              HighlightedText("Subject: "+message.subject,Colors.blueAccent,FontWeight.bold,20),
+              HighlightedText(message.text,Colors.blueGrey,FontWeight.normal,15),
             ],
           ),
         )

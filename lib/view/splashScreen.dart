@@ -29,8 +29,35 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        appBar: AppBar(title: Text("Mail.tm",style: TextStyle(fontSize: 25,fontFamily: "Kalpurush",color: Colors.black)),centerTitle: true,backgroundColor: Colors.white,),
-        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          elevation: 0,
+          automaticallyImplyLeading: false,
+          backgroundColor: Colors.white,
+          flexibleSpace: SafeArea(
+            child: Container(
+              padding: EdgeInsets.only(right: 16),
+              child: Row(
+                children: <Widget>[
+
+                  SizedBox(width: 10,),
+                  Icon(Icons.email_outlined,color: Colors.blueAccent,),
+                  SizedBox(width: 12,),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Text("Welcome",style: TextStyle( fontSize: 16 ,fontWeight: FontWeight.w600),),
+
+                      ],
+                    ),
+                  ),
+
+                ],
+              ),
+            ),
+          ),
+        ),backgroundColor: Colors.transparent,
         body: Container(
           decoration: BoxDecoration(
             image: DecorationImage(

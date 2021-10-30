@@ -23,7 +23,7 @@ class Inbox extends StatelessWidget {
                     icon: Icon(Icons.arrow_back,color: Colors.black,),
                   ),
                   SizedBox(width: 2,),
-                  Icon(Icons.email_outlined,color: Colors.redAccent,),
+                  Icon(Icons.email_outlined,color: Colors.blueAccent,),
                   SizedBox(width: 12,),
                   Expanded(
                     child: Column(

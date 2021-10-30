@@ -172,7 +172,9 @@ class HomePage extends StatelessWidget {
                       accountController.account.add(acc);
                       accountController.messages=await accountController.account[0].getMessages();
                       Navigator.pop(context);
-                      Get.to(Inbox());
+                      email.clear();
+                      pass.clear();
+                      Get.off(()=>Inbox());
                     }
                     else{
                       Navigator.pop(context);

@@ -74,7 +74,7 @@ class _AutoAccountScreenState extends State<AutoAccountScreen> {
               physics: ScrollPhysics(),
               child: Column(
                 children: <Widget>[
-                  Obx(()=> HighlightedText("Your Email : "+controller.account[0].address.toLowerCase(),Colors.redAccent,FontWeight.w500,20)),
+                  Obx(()=> HighlightedText("Your Email : "+controller.account[0].address.toLowerCase(),Colors.blueGrey,FontWeight.w500,20)),
                   GetBuilder<AccountController>(
                     builder: (ac) => ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
